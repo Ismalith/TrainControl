@@ -1,9 +1,12 @@
+import importlib
 import os.path
 import psycopg
 from core.ClassBase import ClassBase
+from core.ClassType import ClassType
 from core.Exceptions import DBConnectionException
 from configparser import ConfigParser
 from sshtunnel import SSHTunnelForwarder
+
 
 class Database:
     __db_config: dict[str, str]
@@ -83,18 +86,29 @@ class Database:
                 with conn.cursor() as cur:
                     cur.execute(query)
                     if response:
-                        response = []
+                        db_response = []
                         for record in cur:
-                            response.append(record)
-
-            return response
+                            db_response.extend(record)
+                        return db_response
         except (psycopg.DatabaseError, Exception) as error:
             raise DBConnectionException(error)
 
     @classmethod
-    def get_object(cls, oid: str) -> ClassBase:
-        print("Implementation missing")
-        #TODO Implement
+    def get_object(cls, oid: str) -> ClassBase | None:
+        """
+        Tries to find the object for the given oid in the database, and returns it, if not found "None" is returned
+        Only works with objects from the type "ClassBase"
+        :return: the found object or "None" if no object could be found
+        """
+        oid_key = oid [: 3]
+        for classType in ClassType:
+            if classType.value[1].__eq__(oid_key):
+                found_class = getattr(importlib.import_module(f"pie_hardware.{classType.value[0]}"), classType.value[0], None)
+                Database.connect()
+                data = Database.run_sql_query("SELECT * FROM " + classType.name + " WHERE oid = '" + oid + "'")
+                if not data:
+                    return None
+                return found_class.db_build_class(found_class, data)
 
     @classmethod
     def add_object(cls, persistent_object: ClassBase):

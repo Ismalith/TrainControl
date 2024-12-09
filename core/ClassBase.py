@@ -12,16 +12,22 @@ class ClassBase:
     __oid = "xxx"
     __classType: ClassType
 
-    def __init__(self, class_type: ClassType):
+    def __init__(self, class_type: ClassType, oid: str = None):
         """
         Base initialization for all persistent classes, sets the oid and the type of the created class
         :param class_type: the class type to identify the new class
+        :param oid: to set an already existing oid, ONLY to use when reloading the relais from the database
         """
-        if self.__oid != "xxx":
-            raise BadInitializationException("Attempt to initialize a class that was already initialized")
+        if oid is None:
+            if self.__oid != "xxx":
+                raise BadInitializationException("Attempt to initialize a class that was already initialized")
 
-        self.__oid = class_type.value + "-" + str(random.randint(1000000000, (1000000000 * 10 - 1)))
-        globals()['classType'] = class_type
+            self.__oid = class_type.value + "-" + str(random.randint(1000000000, (1000000000 * 10 - 1)))
+        else:
+            self.__oid = oid
+
+        #globals()['classType'] = class_type
+        self.__classType = class_type
 
     def get_oid(self):
         """
@@ -44,4 +50,11 @@ class ClassBase:
         """
         Shutdown procedure for a clean and save exit.
         """
+        pass
+
+    def db_build_class(self, data):
+        pass
+
+
+    def write_to_db(self):
         pass

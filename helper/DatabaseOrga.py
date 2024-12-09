@@ -15,10 +15,12 @@ def reset_db_tables():
     for enum in ClassType:
         query_string = (str(enum).replace("ClassType.", "").lower())
         query_string = query_string + "(oid VARCHAR(10)"
-        for i in range(1, enum.value.__len__()):
+        for i in range(2, enum.value.__len__()):
             query_string = query_string + ", " + enum.value[i][0] + " "
 
             match enum.value[i][1]:
+                case "boolean":
+                    query_string = query_string + "BOOLEAN"
                 case "str":
                     query_string = query_string + "VARCHAR"
                 case "numeric":
@@ -54,7 +56,7 @@ def delete_all_tables():
 
     tables_to_drop_string = ""
     for table_to_drop in tables_to_drop:
-        tables_to_drop_string = tables_to_drop_string + table_to_drop[0] + ", "
+        tables_to_drop_string = tables_to_drop_string + table_to_drop + ", "
 
     tables_to_drop_string = tables_to_drop_string[0:tables_to_drop_string.__len__() -2]
     Database.connect()
