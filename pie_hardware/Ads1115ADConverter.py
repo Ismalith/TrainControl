@@ -12,12 +12,12 @@ class Ads1115ADConverter(ClassBase):
 
     The sensor to measure the input of a transformer
     """
-    __adc = Adafruit_ADS1x15.ADS1115()
+    __adc: None
     __GAIN = 1
     __address = -1
     __pins = []
 
-    def __init__(self, address=-1, pins=None):
+    def __init__(self, address = None, pin = None):
         """
         Initialize the Ads1115ADConverter, pins can be set later, address must be set here and can't be changed later
         :param address: I2C address of the Ads1115ADConverter has to be hexal, default 0x48
@@ -33,6 +33,7 @@ class Ads1115ADConverter(ClassBase):
         super().__init__(ClassType.ADS1115ADCONVERTER)
 
         self.set_new_pins(pins)
+        self.__adc: Adafruit_ADS1x15.ADS1115()
 
     def set_new_pins(self, pins=None):
         """

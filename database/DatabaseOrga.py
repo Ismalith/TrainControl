@@ -1,4 +1,5 @@
 from core.ClassType import ClassType
+from core.Exceptions import DBOrgaException
 from database.Database import Database
 
 
@@ -10,18 +11,35 @@ def reset_db_tables():
         tables that are not within this enum have to be deleted manually to allow TrainControl to run
         WARNING: ALL DATA IN TrainControl WILL BE LOST!
     """
-    Database.connect()
     delete_all_tables()
     for enum in ClassType:
         query_string = (str(enum).replace("ClassType.", "").lower())
-        query_string = query_string + "(oid VARCHAR(10)"
+        query_string = query_string + "(oid VARCHAR(10) NOT NULL UNIQUE"
         for i in range(2, enum.value.__len__()):
             query_string = query_string + ", " + enum.value[i][0] + " "
+
+            if enum.value[i].__len__() == 1:
+                found = False
+                for item in ClassType:
+                    if str(enum.value[i][0]).upper() in str(item.name):
+                        query_string = query_string + "VARCHAR"
+                        found = True
+                        break
+
+                if found:
+                    continue
+                else:
+                    delete_all_tables()
+                    raise DBOrgaException("Table reset failed, one of the columns only had one value, this is only allowed if the column \n"
+                        " contains the oids to another table, which also wasn't found, make sure, all columns have \n"
+                        " their type and the table names to other tables are written correctly, \n"
+                        " Found bad column name: " + (enum.value[i][0]).upper())
+
 
             match enum.value[i][1]:
                 case "boolean":
                     query_string = query_string + "BOOLEAN"
-                case "str":
+                case "string":
                     query_string = query_string + "VARCHAR"
                 case "numeric":
                     query_string = query_string + "NUMERIC"
@@ -30,7 +48,9 @@ def reset_db_tables():
                 case "date":
                     query_string = query_string + "DATE"
                 case _:
-                    raise Exception("Table reset failed, one of the types for the table columns was not str, numeric, integer or date")
+                    raise DBOrgaException("Table reset failed, one of the types for the table columns was not string, numeric, integer or date\n"
+                                          "Failed table: " + str(enum).replace("ClassType.", "") + "\n"
+                                          "Failed parameter: " + enum.value[i][0] + " with " + enum.value[i][1])
 
 
         query_string = query_string + ")"
@@ -51,7 +71,7 @@ def delete_all_tables():
                         WHERE TABLE_SCHEMA = 'public'
                 """)
 
-    if len(tables_to_drop) == 0:
+    if tables_to_drop is None or len(tables_to_drop) == 0:
         return
 
     tables_to_drop_string = ""
@@ -59,9 +79,5 @@ def delete_all_tables():
         tables_to_drop_string = tables_to_drop_string + table_to_drop + ", "
 
     tables_to_drop_string = tables_to_drop_string[0:tables_to_drop_string.__len__() -2]
-    Database.connect()
     Database.run_sql_query("DROP TABLE " + tables_to_drop_string, False)
     print("All tables dropped")
-
-
-#reset_db_tables()

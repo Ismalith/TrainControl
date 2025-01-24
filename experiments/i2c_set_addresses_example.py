@@ -102,10 +102,10 @@ def assign_address(line):
       # make sure it is not already used by some other device.
       if desired_address_specified or not scan_address(desired_address):
         break
-      print("Found a device at address %d." % desired_address)
+      print("Found a device at address %d" % desired_address)
 
     elif desired_address_specified:
-      print("Assignment to address %d not allowed." % desired_address)
+      print("Assignment to address %d not allowed" % desired_address)
 
     # Try the next higher address.
     while True:

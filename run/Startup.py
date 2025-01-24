@@ -11,20 +11,7 @@ class Startup:
         :return:
         """
         print(" 0% Starting...")
-        print(" 0% Connecting to database...")
-        attempts = 0
-        while attempts <= 10:
-            if Database.connect():
-                print(" 5% Database connected")
-                break
-
-            else: attempts = attempts + 1
-            print(" 0% Connecting attempt " + (attempts + 1) + " failed.")
-
-        if attempts > 9:
-            raise StartupException("Failed to connect to Database for 10 Attempts")
-
-        print("15% Get table names from database...")
+        print(" 0% Get table names from database...")
         responses = Database.run_sql_query("""
                         SELECT table_name FROM INFORMATION_SCHEMA.TABLES
                             WHERE TABLE_SCHEMA = 'public'
@@ -58,7 +45,7 @@ class Startup:
                 missing_tables_string = missing_tables_string + str(missing_table).replace("ClassType.", "") + ", "
             raise StartupException("The following tables where missing in the database, make sure all tables are in the database: "
                                     + missing_tables_string +
-                                    "without the tables the project can't run.")
+                                    "without the tables the project can't run")
 
         print("50% All table names and enums where found")
         return True

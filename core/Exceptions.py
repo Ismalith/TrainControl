@@ -27,3 +27,12 @@ class DBConnectionException(Exception):
 
 class StartupException(Exception):
     pass
+
+class DBOrgaException(Exception):
+    pass
+
+class RasperryException(Exception):
+    pass
+
+class BadObjectException(Exception):
+    pass

@@ -16,7 +16,7 @@ class Track(ClassBase):
     __motor_controller: M3HMotorcontroller
     __reserved: bool
 
-    def __init__(self, address: int, motor_controller: M3HMotorcontroller):
+    def __init__(self, name: str, address: int, motor_controller: M3HMotorcontroller, oid:str = None):
         """
         Initialize track section with its motor controller, relay and sensor
         :param address:
