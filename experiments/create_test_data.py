@@ -1,4 +1,6 @@
 import database.DatabaseOrga
+from matrix.Plane import Plane
+from matrix.Matrix import Matrix
 from pie_hardware.Ina219PowerSensor import Ina219PowerSensor
 from pie_hardware.M3HMotorcontroller import M3HMotorcontroller
 from pie_hardware.RasperryPie import RasperryPie
@@ -47,7 +49,16 @@ motor_controller_07 = M3HMotorcontroller.create_new(sub_pie,"0x46","PS and Sub 2
 motor_controller_08 = M3HMotorcontroller.create_new(sub_pie,"0x6b")
 motor_controller_09 = M3HMotorcontroller.create_new(sub_pie,"0x6e")
 print("Create M3HMotorcontroller Done")
-
+print("Start Create Matrix")
+matrix = Matrix.create_new("Test Matrix", 150000, 80000, 5000)
+print("Create Matrix Done")
+print("Start Create Plane")
+plane_01 = Plane.create_new("Test Plane 1", 140000, 6000,)
+plane_02 = Plane.create_new("Test Plane 2", 8000, 3000, 5000, 4000, 400)
+plane_03 = Plane.create_new("Test Plane 3", 18000, 2000, 7000, 20000, 200, 5, 2, 30)
+plane_04 = Plane.create_new("Test Plane big")
+plane_05 = Plane.create_new("GeoGebra 3D Rechner Test Plane", 6, 4,6, 3, 2, 3, 1, 36)
+print("Create Plane Done")
 print("Testdata was reset")
 
 

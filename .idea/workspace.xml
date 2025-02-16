@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9790ab-d002-4513-97f9-36019bff4745" name="Changes" comment="Created basic Project Structure, database connection basics and db startup check">
-      <change afterPath="$PROJECT_DIR$/experiments/Testfile2.py" afterDir="false" />
+    <list default="true" id="fd9790ab-d002-4513-97f9-36019bff4745" name="Changes" comment="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen.">
+      <change afterPath="$PROJECT_DIR$/matrix/Matrix.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/matrix/Plane.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/matrix/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/ClassBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/ClassBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/ClassType.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/ClassType.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/Database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/Database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/SQLCore.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper/DatabaseOrga.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper/DatabaseOrga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/Testfile2.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/Testfile2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/create_test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/create_test_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pie_hardware/M3HMotorcontroller.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/M3HMotorcontroller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pie_hardware/Relay.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/Relay.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,32 +53,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.DBconnection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DatabaseOrga.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SQLCore.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Startup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Testfile.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Testfile2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dbconnection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pipwin.executor&quot;: &quot;Run&quot;,
-    &quot;Python.setup.executor&quot;: &quot;Run&quot;,
-    &quot;Python.startup.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Gemischt/Programmieren/Python/TrainControl/run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.DBconnection.executor": "Run",
+    "Python.DatabaseOrga.executor": "Run",
+    "Python.Main.executor": "Run",
+    "Python.SQLCore.executor": "Run",
+    "Python.Startup.executor": "Run",
+    "Python.Testfile.executor": "Run",
+    "Python.Testfile2.executor": "Run",
+    "Python.create_test_data.executor": "Run",
+    "Python.dbconnection.executor": "Run",
+    "Python.pipwin.executor": "Run",
+    "Python.setup.executor": "Run",
+    "Python.startup.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "last_opened_file_path": "E:/Gemischt/Programmieren/Python/TrainControl/matrix",
+    "settings.editor.selected.configurable": "vcs.Git"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Gemischt\Programmieren\Python\TrainControl\matrix" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\run" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Gemischt\Programmieren\Python\TrainControl\database" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\experiments" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\core" />
-      <recent name="E:\Gemischt\Programmieren\Python\TrainControl\database" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\pie_hardware" />
     </key>
   </component>
@@ -93,7 +99,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/helper/DatabaseOrga.py" />
+      <option name="SCRIPT_NAME" value="E:\Gemischt\Programmieren\Python\TrainControl\database\DatabaseOrga.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -116,28 +122,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run/Main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Startup" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="TrainControl" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="E:\Gemischt\Programmieren\Python\TrainControl\run\Startup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -190,20 +174,42 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="create_test_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TrainControl" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/experiments" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/create_test_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.Testfile2" />
+        <item itemvalue="Python.create_test_data" />
         <item itemvalue="Python.Testfile" />
         <item itemvalue="Python.DatabaseOrga" />
         <item itemvalue="Python.Main" />
-        <item itemvalue="Python.Startup" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-d7ad00fb9fc3-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23726.102" />
+        <option value="bundled-python-sdk-fc1d50d2d915-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.24978.54" />
       </set>
     </attachedChunks>
   </component>
@@ -235,18 +241,76 @@
       <option name="project" value="LOCAL" />
       <updated>1730494429160</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Das Object Relay kann nun von der DB ausgelesen werden, weitere kleine fixes und Ergänzungen">
+      <option name="closed" value="true" />
+      <created>1733702988202</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733702988202</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen.">
+      <option name="closed" value="true" />
+      <created>1737756735186</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737756735186</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="6f2ac36a-0ad6-4fe3-8fb5-ffc910c0868d" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="6f2ac36a-0ad6-4fe3-8fb5-ffc910c0868d">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:E:/Gemischt/Programmieren/Python/TrainControl/run" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -255,9 +319,20 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Rework Project Structure, database connection basics and db startup check implemented" />
     <MESSAGE value="Created basic Project Structure, database connection basics and db startup check" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created basic Project Structure, database connection basics and db startup check" />
+    <MESSAGE value="Das Object Relay kann nun von der DB ausgelesen werden, weitere kleine fixes und Ergänzungen" />
+    <MESSAGE value="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen." />
+    <option name="LAST_COMMIT_MESSAGE" value="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/core/ClassBase.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="_cls" />

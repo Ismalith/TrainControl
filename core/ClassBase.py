@@ -1,6 +1,8 @@
 import inspect
 import random
 
+from pgapi.cli import query
+
 from core.ClassType import ClassType
 from core.Exceptions import BadInitializationException, BadObjectException
 
@@ -103,6 +105,21 @@ class ClassBase:
         return self.__classType
 
 
+    def change_name(self, name):
+        """
+        Sets a new name for the object
+        """
+        from database.Database import Database
+        if self.__name is None:
+            raise BadObjectException("Attempt to change the name of a " + self.get_type().name + " object without giving a new name, oid: " + self.get_oid())
+
+        found_objects = Database.run_sql_query("SELECT count(oid) FROM " + self.get_type().name.lower() + " WHERE name = '" + name + "'")
+        if found_objects > 0:
+            raise BadInitializationException("A " + self.get_type().name + " object with the name " + name + " is already in the database")
+
+        Database.run_sql_query("UPDATE " + self.get_type().name.lower() + " SET name = '" + name + "' WHERE " + self.get_type().name.lower() + ".oid = '" + self.get_oid() + "'", False)
+
+
     def get_name(self):
         """
         Returns the name of the object
@@ -113,6 +130,10 @@ class ClassBase:
 
 
     def save(self):
+        from database.Database import Database
+        """
+        Saves all current values of this object, to the database except the oid and the type which should never be changed
+        """
         pass
 
 

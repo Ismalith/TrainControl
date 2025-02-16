@@ -1,6 +1,8 @@
 import importlib
 import os.path
 import psycopg
+import importlib.util
+import os
 from core.ClassBase import ClassBase
 from core.ClassType import ClassType
 from core.Exceptions import DBConnectionException
@@ -106,9 +108,25 @@ class Database:
         :return: the found object or "None" if no object could be found
         """
         oid_key = oid [: 3]
+        root_dir = str(os.path.dirname(os.path.abspath(__file__)).removesuffix("\\database"))
+
         for classType in ClassType:
             if classType.value[1].__eq__(oid_key):
-                found_class = getattr(importlib.import_module(f"pie_hardware.{classType.value[0]}"), classType.value[0], None)
+                packages = next(os.walk(root_dir))[1]
+                if ".git" in packages:
+                    packages.remove(".git")
+                if ".idea" in packages:
+                    packages.remove(".idea")
+                if "__pycache__" in packages:
+                    packages.remove("__pycache__")
+
+                package_name = None
+                for package in packages:
+                    for filenames, dirpath, dirnames in os.walk(root_dir + "\\" + package):
+                        if classType.value[0] in str(dirnames) and "__pycache__" not in filenames:
+                            package_name = filenames.rsplit("\\")
+                            package_name = package_name[len(package_name) - 1]
+                found_class = getattr(importlib.import_module(f"{package_name}.{classType.value[0]}"), classType.value[0], None)
                 data = Database.run_sql_query("SELECT * FROM " + classType.name + " WHERE oid = '" + oid + "'")
                 if not data:
                     return None

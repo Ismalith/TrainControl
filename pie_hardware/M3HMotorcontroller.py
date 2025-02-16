@@ -197,6 +197,7 @@ class M3HMotorcontroller(ClassBase):
         self.__ready = True
         self.__direction = {1: 0, 2: 0, 3: 0}
 
+
     def run_reset_direction(self, channel: int):
         """
         To avoid uncontrolled direction changes, the direction first driven, blocks the other direction from being used,
@@ -209,6 +210,7 @@ class M3HMotorcontroller(ClassBase):
             self.__direction[channel] = 0
             return True
         return False
+
 
     def run_forward(self, channel: int, target_speed: int, acceleration: int, deceleration: int, starting_speed: int = -1):
         """
@@ -265,6 +267,7 @@ class M3HMotorcontroller(ClassBase):
         self.__motorcontroller.set_starting_speed_forward(channel, starting_speed)
         self.__motorcontroller.set_speed(channel, target_speed)
 
+
     def run_backward(self, channel: int, target_speed: int, acceleration: int, deceleration: int, starting_speed: int = -1):
         """
         Sets a new backward target speed that the controller will accelerate or slow the train to with the given
@@ -319,6 +322,7 @@ class M3HMotorcontroller(ClassBase):
         self.__motorcontroller.set_starting_speed_reverse(channel, starting_speed)
         self.__motorcontroller.set_speed(channel, target_speed * -1)
 
+
     def run_set_track_speed(self, controller_id: int, speed: int):
         """
         Sets the speed of the controller to the given value instantly, must only be used to set a track that is to be
@@ -346,7 +350,15 @@ class M3HMotorcontroller(ClassBase):
         """
         self.__check_ready_and_controller(channel)
         return self.__motorcontroller.get_current_speed(channel)
+    """
+    END public specific functions
+    """
 
+
+
+    """
+    START private specific functions
+    """
     def __check_ready_and_controller(self, chanel: int):
         if not self.__ready:
             raise M3HMotorcontrollerException("M3H motor controller " + self.get_name() + " has to be reset before use")
@@ -354,3 +366,6 @@ class M3HMotorcontroller(ClassBase):
         if not 1 <= chanel <= 3:
             raise M3HMotorcontrollerException("Attempt to drive the motor controller " + self.get_name()
                                               + " with a channel outside of the 1-3 range: " + chanel)
+    """
+    END private specific functions
+    """

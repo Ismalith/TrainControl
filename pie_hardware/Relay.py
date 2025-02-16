@@ -123,7 +123,7 @@ class Relay(ClassBase):
     @override
     def save(self):
         """
-        Saves the current state of this rasperry pie into the database
+        Saves the current state of this relay into the database
         """
         print("Noch nicht implementiert Relay.save")
 
