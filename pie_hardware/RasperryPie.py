@@ -1,5 +1,4 @@
 import inspect
-import random
 import re
 from typing import override
 from core.ClassBase import ClassBase
@@ -65,7 +64,7 @@ class RasperryPie(ClassBase):
 
     @override
     def __db_write_to_db__(self):
-        sql_insert = "INSERT INTO rasperrypie (oid, name, master, database) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" + str(self.is_master()) + "','" + str(self.is_database()) + "')"
+        sql_insert = "INSERT INTO rasperrypie (oid, name, master, database) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.is_master()) + "', '" + str(self.is_database()) + "')"
         Database.run_sql_query(sql_insert, False)
 
 
@@ -104,9 +103,12 @@ class RasperryPie(ClassBase):
         """
         if name is None:
             highest_generic_name = Database.run_sql_query("SELECT name FROM rasperrypie WHERE name ~ '^RasperryPie \\d+$' ORDER BY name DESC LIMIT 1")
-            name = "RasperryPie " + str(int(str(highest_generic_name).rsplit(" ")[1]) + 1)
+            if highest_generic_name is not None:
+                name = "RasperryPie " + str(int(str(highest_generic_name).rsplit(" ")[1]) + 1)
+            else:
+                name = "RasperryPie 1"
         else:
-            found_rasperry_pies = Database.run_sql_query("SELECT count(oid) FROM rasperrypie WHERE name = '" + name + "'")
+            found_rasperry_pies = int(Database.run_sql_query("SELECT count(oid) FROM rasperrypie WHERE name = '" + name + "'"))
             if found_rasperry_pies > 0:
                 raise BadInitializationException("A rasperry pie with the name " + name + " is already in the database")
 
@@ -203,7 +205,7 @@ class RasperryPie(ClassBase):
                                 "requested gpio pin address: " + str(gpio_pin))
 
         if gpio_pin == 2 or gpio_pin == 3:
-            raise BadAddressException("Attemt to ask if a gpio pin " + str(gpio_pin) + " on a rasperry pie is free,"
+            raise BadAddressException("Attempt to ask if a gpio pin " + str(gpio_pin) + " on a rasperry pie is free,"
                                       " those pins are always reserved for the i2c connections")
 
         sql_statement = ""

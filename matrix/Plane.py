@@ -3,7 +3,7 @@ from typing import override
 import numpy as np
 from core.ClassBase import ClassBase
 from core.ClassType import ClassType
-from core.Exceptions import BadInitializationException
+from core.Exceptions import BadInitializationException, MatrixAndPlaneException
 from database.Database import Database
 from matrix.Matrix import Matrix
 
@@ -55,6 +55,7 @@ class Plane(ClassBase):
         self.__xrot = xrot
         self.__yrot = yrot
         self.__zrot = zrot
+
         if not legal_db_call:
             self.__db_write_to_db__()
     """
@@ -83,12 +84,20 @@ class Plane(ClassBase):
         dimensions = self.get_dimensions()
         position = self.get_position()
         rotation = self.get_rotation()
-        sql_insert = ("INSERT INTO plane (oid, name, matrix, xlength, ylength, xpos, ypos, zpos, xrot, yrot, zrot) VALUES ('"
-                      + self.get_oid() + "','" + self.get_name() + "','" + str(self.get_matrix().get_oid()) + "','" +
-                      str(dimensions[0]) + "','" + str(dimensions[1]) + "','" +
-                      str(position[0]) + "','" + str(position[1]) + "','" + str(position[2]) + "','" +
-                      str(rotation[0]) + "','" + str(rotation[1]) + "','" + str(rotation[2]) + "')")
-        Database.run_sql_query(sql_insert, False)
+        if self.get_matrix() is not None:
+            sql_insert = ("INSERT INTO plane (oid, name, matrix, xlength, ylength, xpos, ypos, zpos, xrot, yrot, zrot) VALUES ('"
+                          + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.get_matrix().get_oid()) + "', '" +
+                          str(dimensions[0]) + "', '" + str(dimensions[1]) + "', '" +
+                          str(position[0]) + "', '" + str(position[1]) + "', '" + str(position[2]) + "', '" +
+                          str(rotation[0]) + "', '" + str(rotation[1]) + "', '" + str(rotation[2]) + "')")
+            Database.run_sql_query(sql_insert, False)
+        else:
+            sql_insert = ("INSERT INTO plane (oid, name, xlength, ylength, xpos, ypos, zpos, xrot, yrot, zrot) VALUES ('"
+                          + self.get_oid() + "', '" + self.get_name() + "', '" + str(dimensions[0]) + "', '" +
+                          str(dimensions[1]) + "', '" + str(position[0]) + "', '" + str(position[1]) + "', '" +
+                          str(position[2]) + "', '" + str(rotation[0]) + "', '" + str(rotation[1]) + "', '" +
+                          str(rotation[2]) + "')")
+            Database.run_sql_query(sql_insert, False)
     """
     END db functions
     """
@@ -99,10 +108,10 @@ class Plane(ClassBase):
     START public general functions
     """
     @classmethod
-    def create_new(cls, name:str, xlength:int = 0, ylength:int = 0, xpos:int = -1, ypos:int = -1, zpos:int = 0, xrot:int = 0, yrot:int = 0, zrot:int = 0, ):
+    def create_new(cls, name:str = None, xlength:int = 0, ylength:int = 0, xpos:int = -1, ypos:int = -1, zpos:int = 0, xrot:int = 0, yrot:int = 0, zrot:int = 0, ):
         """
         Creation methode to create and write a new plane to the database, only create new lane with this method, the matrix is added automatically if one exists,
-        if none exists the plane can itself be the base object however this only allowes one plane and a matrix can not be added after the fact
+        if none exists the plane can itself be the base object however this only allows one plane and a matrix can not be added after the fact
         :param name: the name for the plane, if not chosen manually the new relay will get the name "Plane 1"
         :param xlength: the length of the plane in µm (1/10000)
         :param ylength: the width of the plane in µm (1/10000)
@@ -116,9 +125,12 @@ class Plane(ClassBase):
         """
         if name is None:
             highest_generic_name = Database.run_sql_query("SELECT name FROM plane WHERE name ~ '^plane \\d+$' ORDER BY name DESC LIMIT 1")
-            name = "Plane " + str(int(str(highest_generic_name).rsplit(" ")[1]) + 1)
+            if highest_generic_name is not None:
+                name = "Plane " + str(int(str(highest_generic_name).rsplit(" ")[1]) + 1)
+            else:
+                name = "Plane 1"
         else:
-            found_planes = Database.run_sql_query("SELECT count(oid) FROM plane WHERE name = '" + name + "'")
+            found_planes = int(Database.run_sql_query("SELECT count(oid) FROM plane WHERE name = '" + name + "'"))
             if found_planes > 0:
                 raise BadInitializationException("A planes pie with the name " + name + " is already in the database")
 
@@ -168,20 +180,20 @@ class Plane(ClassBase):
             ylength = matrix.get_dimensions()[1]
 
         if xpos == -1:
-            xpos = matrix.get_dimensions()[0] / 2
+            xpos = int(matrix.get_dimensions()[0] / 2)
 
         if ypos == -1:
-            ypos = matrix.get_dimensions()[1] / 2
+            ypos = int(matrix.get_dimensions()[1] / 2)
 
 
-        corner_1 = [0, 0]
-        corner_2 = [xlength, 0]
-        corner_3 = [0, ylength]
-        corner_4 = [xlength, ylength]
+        corner_1 = [0, 0, 0]
+        corner_2 = [xlength, 0, 0]
+        corner_3 = [0, ylength, 0]
+        corner_4 = [xlength, ylength, 0]
         four_corners = [corner_1, corner_2, corner_3, corner_4]
 
         for corner in four_corners:
-            absolute_point = Plane.__get_absolute_position(corner[0], corner[1], xpos, ypos, zpos, xrot, yrot, zrot)
+            absolute_point = Plane.__get_absolute_position_in_matrix(corner[0], corner[1], corner[2], xpos, ypos, zpos, xrot, yrot, zrot)
             if absolute_point[0] < 0 or absolute_point[1] < 0 or absolute_point[2] < 0:
                 raise BadInitializationException("Attempt to create a new plane with at least one point outside the matrix, found point:\n" +
                                                  str(corner[0]) + "|" + str(corner[1]) + " (" + str(absolute_point[0]) + "|" + str(absolute_point[1]) + "|" + str(absolute_point[2]) + ")")
@@ -215,20 +227,11 @@ class Plane(ClassBase):
     START private specific functions
     """
     @classmethod
-    def __get_absolute_position(cls, x:int, y:int, xpos:int, ypos:int, zpos:int, xrot:int = 0, yrot:int = 0, zrot:int = 0):
-        x = float(x)
-        y = float(y)
-        xpos = float(xpos)
-        ypos = float(ypos)
-        zpos = float(zpos)
-        xrot = float(xrot)
-        yrot = float(yrot)
-        zrot = float(zrot)
-
-        xrad = np.radians(xrot)
-        yrad = np.radians(yrot)
-        zrad = np.radians(zrot)
-        point = np.array([float(x), float(y), 0.0])
+    def __get_absolute_position_in_matrix(cls, x:int, y:int, z:int, xpos:int, ypos:int, zpos:int, xrot:int = 0, yrot:int = 0, zrot:int = 0) -> tuple[int, int, int]:
+        xrad = np.radians(float(xrot))
+        yrad = np.radians(float(yrot))
+        zrad = np.radians(float(zrot))
+        point = np.array([float(x), float(y), float(z)])
 
         rot_matrix_x = np.array([
             [1, 0, 0],
@@ -249,7 +252,12 @@ class Plane(ClassBase):
         ])
 
         rot_point = rot_matrix_z @ (rot_matrix_y @ (rot_matrix_x @ point))
-        return [rot_point[0] + float(xpos), rot_point[1] + float(ypos), rot_point[2] + float(zpos)]
+        return int(rot_point[0] + xpos), int(rot_point[1] + ypos), int(rot_point[2] + zpos)
+
+
+    def __matrix_exists(self, method_name:str):
+        if self.__matrix is None:
+            raise MatrixAndPlaneException("Attempt to use " + method_name + " while there is no matrix set")
     """
     END private specific functions
     """
@@ -263,12 +271,13 @@ class Plane(ClassBase):
         """
         Returns the matrix in which this plane is
         """
+        self.__matrix_exists("get_matrix")
         return self.__matrix
 
 
     def get_dimensions(self):
         """
-        Returns the x and z dimensions for this plane
+        Returns the x and y dimensions for this plane
         """
         return [self.__xlength, self.__ylength]
 
@@ -277,6 +286,7 @@ class Plane(ClassBase):
         """
         Returns the x, y and z position of this plane in the matrix, the point returned is the center of the plane
         """
+        self.__matrix_exists("get_position")
         return [self.__xpos, self.__ypos, self.__zpos]
 
 
@@ -284,14 +294,47 @@ class Plane(ClassBase):
         """
         Returns the x, y and z rotation of this plane in the matrix, the rotation point returned is in the center of the plane
         """
+        self.__matrix_exists("get_rotation")
         return [self.__xrot, self.__yrot, self.__zrot]
 
 
-    def get_absolute_position(self, x:int, y:int):
+    def get_absolute_position_in_matrix(self, x:int, y:int, z:int = 0) -> tuple[int, int, int]:
         """
         Returns the absolute position in the matrix for the given point on the plane
+        :param x: the x coordinate on the plane that will be translated to its absolute position in the matrix
+        :param y: the y coordinate on the plane that will be translated to its absolute position in the matrix
+        :param z: the z coordinate on the plane that will be translated to its absolute position in the matrix, if the given point is directly on the plane, it can be left empty
         """
-        return Plane.__get_absolute_position(x, y, self.__xpos, self.__ypos, self.__zpos, self.__xrot, self.__yrot, self.__zrot)
+        self.__matrix_exists("get_absolute_position_in_matrix")
+        if z == 0:
+            return Plane.__get_absolute_position_in_matrix(x, y, z, self.__xpos, self.__ypos, self.__zpos, self.__xrot, self.__yrot, self.__zrot)
+        else:
+            return Plane.__get_absolute_position_in_matrix(x, y, 0, self.__xpos, self.__ypos, self.__zpos, self.__xrot, self.__yrot, self.__zrot)
+
+
+    def is_point_in_boarders(self, x:int, y:int):
+        """
+        Returns true if the given point is within the limits of the plane and false if not
+        :param x: the x coordinate of the point to be tested
+        :param y: the y coordinate of the point to be tested
+        """
+        self.__matrix_exists("is_position_in_matrix")
+        if self.__xlength > x > 0 and self.__ylength > y > 0:
+            return True
+        else:
+            return False
+
+
+    def are_coordinates_legal(self, x:int, y:int, z:int):
+        """
+        Returns true, if the given coordinate is within the containing matrix
+        :param x: the x value of the coordinate that is to be tested
+        :param y: the y value of the coordinate that is to be tested
+        :param z: the z value of the coordinate that is to be tested
+        """
+        self.__matrix_exists("_are_coordinates_legal")
+        x2, y2, z2 = self.get_absolute_position_in_matrix(x, y, z)
+        return self.__matrix.point_in_boarders(x2, y2, z2)
     """
     END public specific functions
     """

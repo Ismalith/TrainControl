@@ -73,10 +73,10 @@ class Ina219PowerSensor(ClassBase):
     @override
     def __db_write_to_db__(self):
         if self.__address is not None:
-            sql_insert = "INSERT INTO ina219powersensor (oid, name, rasperrypie, i2caddress) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" + str(self.get_rasperry_pie().get_oid()) + "','" + self.get_address() + "')"
+            sql_insert = "INSERT INTO ina219powersensor (oid, name, rasperrypie, i2caddress) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.get_rasperry_pie().get_oid()) + "', '" + self.get_address() + "')"
             Database.run_sql_query(sql_insert, False)
         else:
-            sql_insert = "INSERT INTO ina219powersensor (oid, name, rasperrypie) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" + str(self.get_rasperry_pie().get_oid()) + "')"
+            sql_insert = "INSERT INTO ina219powersensor (oid, name, rasperrypie) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.get_rasperry_pie().get_oid()) + "')"
             Database.run_sql_query(sql_insert, False)
     """
     END db functions
@@ -104,8 +104,8 @@ class Ina219PowerSensor(ClassBase):
             else:
                 name = "PowerSensor 1"
         else:
-            found_power_sensors_with_same_name = Database.run_sql_query("SELECT count(oid) FROM ina219powersensor "
-                "WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'")
+            found_power_sensors_with_same_name = int(Database.run_sql_query("SELECT count(oid) FROM ina219powersensor "
+                "WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'"))
             if found_power_sensors_with_same_name > 0:
                 raise BadInitializationException("A ina 219 power sensor with the name " + name + " is already in use on the same rasperry pie " + rasperry_pie.get_name())
 

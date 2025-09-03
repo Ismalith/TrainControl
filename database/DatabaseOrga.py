@@ -55,7 +55,6 @@ def reset_db_tables():
 
         query_string = query_string + ")"
         Database.run_sql_query("CREATE TABLE " + query_string,False)
-        print("Table " + (str(enum).replace("ClassType.", "").lower() + " created"))
     print("All tables created")
 
 
@@ -70,14 +69,21 @@ def delete_all_tables():
                     SELECT table_name FROM INFORMATION_SCHEMA.TABLES
                         WHERE TABLE_SCHEMA = 'public'
                 """)
+    print(tables_to_drop)
 
     if tables_to_drop is None or len(tables_to_drop) == 0:
         return
 
-    tables_to_drop_string = ""
-    for table_to_drop in tables_to_drop:
-        tables_to_drop_string = tables_to_drop_string + table_to_drop + ", "
+    if not isinstance(tables_to_drop, str):
+        tables_to_drop_string = ""
+        for table_to_drop in tables_to_drop:
+            tables_to_drop_string = tables_to_drop_string + table_to_drop + ", "
 
-    tables_to_drop_string = tables_to_drop_string[0:tables_to_drop_string.__len__() -2]
+        tables_to_drop_string = tables_to_drop_string[0:tables_to_drop_string.__len__() - 2]
+
+    else:
+        tables_to_drop_string = tables_to_drop
+
+    print("DROP TABLE " + tables_to_drop_string)
     Database.run_sql_query("DROP TABLE " + tables_to_drop_string, False)
     print("All tables dropped")

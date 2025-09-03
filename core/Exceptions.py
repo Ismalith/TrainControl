@@ -1,3 +1,6 @@
+class IniReadException(Exception):
+    pass
+
 class BadAddressException(Exception):
     pass
 
@@ -25,6 +28,9 @@ class TrackGroupException(Exception):
 class DBConnectionException(Exception):
     pass
 
+class DBException(Exception):
+    pass
+
 class StartupException(Exception):
     pass
 
@@ -35,4 +41,10 @@ class RasperryException(Exception):
     pass
 
 class BadObjectException(Exception):
+    pass
+
+class MatrixAndPlaneException(Exception):
+    pass
+
+class MathException(Exception):
     pass

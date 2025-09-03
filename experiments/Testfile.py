@@ -3,7 +3,7 @@ import time
 #from Ads1115ADConverter import Ads1115ADConverter
 #from Ina219PowerSensor import Ina219PowerSensor
 from pie_hardware.Relay import Relay
-from TrackGroup import TrackGroup
+from track import TrackGroup
 
 #from M3HMotorcontroller import M3HMotorcontroller
 

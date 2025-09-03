@@ -61,7 +61,7 @@ mc.clear_motor_fault()
 
 def check_for_problems():
   status = mc.get_status_flags()
-  if (status & error_mask):
+  if status & error_mask:
     # One of the error flags is set.  The Motoron should already be stopping
     # the motors.  We send a reset command to be extra careful.
     mc.reset()

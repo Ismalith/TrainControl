@@ -4,18 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9790ab-d002-4513-97f9-36019bff4745" name="Changes" comment="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen.">
-      <change afterPath="$PROJECT_DIR$/matrix/Matrix.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/matrix/Plane.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/matrix/__init__.py" afterDir="false" />
+    <list default="true" id="fd9790ab-d002-4513-97f9-36019bff4745" name="Changes" comment="Diverse Erweiterungen, Korrekturen und begonnen die Schienen Objekte ein zu führen">
+      <change afterPath="$PROJECT_DIR$/core/generaldata.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/matrix/Calculations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/matrix/Visualisierung von Chat GPT.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/track/StraightTrack.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/track/Track.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/track/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/track/constants.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrackGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/track/TrackGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/Actions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/Tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/ClassBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/ClassBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/ClassType.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/ClassType.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/Exceptions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/Database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/Database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/DatabaseOrga.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/DatabaseOrga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/dbconnection.ini" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbconnection.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/Testfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/Testfile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiments/Testfile2.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/Testfile2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/experiments/create_test_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/create_test_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/motoTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/motoTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matrix/Matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/matrix/Matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matrix/Plane.py" beforeDir="false" afterPath="$PROJECT_DIR$/matrix/Plane.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pie_hardware/Ads1115ADConverter.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/Ads1115ADConverter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pie_hardware/Ina219PowerSensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/Ina219PowerSensor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pie_hardware/M3HMotorcontroller.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/M3HMotorcontroller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pie_hardware/RasperryPie.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/RasperryPie.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pie_hardware/Relay.py" beforeDir="false" afterPath="$PROJECT_DIR$/pie_hardware/Relay.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +51,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Ismalith&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Ismalith/TrainControl.git&quot;,
@@ -39,7 +64,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -61,7 +86,7 @@
     "Python.SQLCore.executor": "Run",
     "Python.Startup.executor": "Run",
     "Python.Testfile.executor": "Run",
-    "Python.Testfile2.executor": "Run",
+    "Python.Testfile2.executor": "Debug",
     "Python.create_test_data.executor": "Run",
     "Python.dbconnection.executor": "Run",
     "Python.pipwin.executor": "Run",
@@ -70,7 +95,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "last_opened_file_path": "E:/Gemischt/Programmieren/Python/TrainControl/matrix",
+    "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "vcs.Git"
+  },
+  "keyToStringList": {
+    "GitStage.ChangesTree.GroupingKeys": [
+      "directory",
+      "module",
+      "repository"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -79,10 +112,11 @@
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\run" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Gemischt\Programmieren\Python\TrainControl" />
+      <recent name="E:\Gemischt\Programmieren\Python\TrainControl\actions\track" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\database" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\experiments" />
       <recent name="E:\Gemischt\Programmieren\Python\TrainControl\core" />
-      <recent name="E:\Gemischt\Programmieren\Python\TrainControl\pie_hardware" />
     </key>
   </component>
   <component name="RunManager" selected="Python.Testfile2">
@@ -200,8 +234,8 @@
       <list>
         <item itemvalue="Python.Testfile2" />
         <item itemvalue="Python.create_test_data" />
-        <item itemvalue="Python.Testfile" />
         <item itemvalue="Python.DatabaseOrga" />
+        <item itemvalue="Python.Testfile" />
         <item itemvalue="Python.Main" />
       </list>
     </recent_temporary>
@@ -209,7 +243,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-fc1d50d2d915-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.24978.54" />
+        <option value="bundled-python-sdk-d9fa9deec7cb-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.515" />
       </set>
     </attachedChunks>
   </component>
@@ -257,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737756735186</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Matrix und Plane hinzu gefügt als Basis um darauf Anlagenobjekte setzen zu können.&#10;Weitere diverse kleinere Fix.">
+      <option name="closed" value="true" />
+      <created>1739667346248</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1739667346248</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -321,21 +363,15 @@
     <MESSAGE value="Created basic Project Structure, database connection basics and db startup check" />
     <MESSAGE value="Das Object Relay kann nun von der DB ausgelesen werden, weitere kleine fixes und Ergänzungen" />
     <MESSAGE value="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen." />
-    <option name="LAST_COMMIT_MESSAGE" value="Grundsätzliche DB Funktionen für Objekte RasperryPie, Relay, M3HMotorcontroller und Ina219PowerSensor zugefügt, einiges an Reorganisation und erste Versuche bei &quot;Actions&quot;, was einige generelle Befehle zur Verfügung stellen soll und &quot;Track&quot;, dem Schienen Objekt angefangen." />
+    <MESSAGE value="Matrix und Plane hinzu gefügt als Basis um darauf Anlagenobjekte setzen zu können.&#10;Weitere diverse kleinere Fix." />
+    <option name="LAST_COMMIT_MESSAGE" value="Matrix und Plane hinzu gefügt als Basis um darauf Anlagenobjekte setzen zu können.&#10;Weitere diverse kleinere Fix." />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/core/ClassBase.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="_cls" />
+        <watch expression="filename" />
+        <watch expression="filename" />
       </configuration>
     </watches-manager>
   </component>

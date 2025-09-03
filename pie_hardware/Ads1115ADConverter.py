@@ -21,7 +21,7 @@ class Ads1115ADConverter(ClassBase):
         """
         Initialize the Ads1115ADConverter, pins can be set later, address must be set here and can't be changed later
         :param address: I2C address of the Ads1115ADConverter has to be hexal, default 0x48
-        :param pins: The A0 to A3 pins on the chip with A0 = 0, A1 = 1, A2 = 2, A3 = 3, default ist none
+        :param pin: The A0 to A3 pins on the chip with A0 = 0, A1 = 1, A2 = 2, A3 = 3, default ist none
         :return: nothing
         """
         if address == -1:
@@ -32,7 +32,7 @@ class Ads1115ADConverter(ClassBase):
             raise BadAddressException("Attempt to initialize an Ads1115 AD converter with a non hex address")
         super().__init__(ClassType.ADS1115ADCONVERTER)
 
-        self.set_new_pins(pins)
+        self.set_new_pins(pin)
         self.__adc: Adafruit_ADS1x15.ADS1115()
 
     def set_new_pins(self, pins=None):

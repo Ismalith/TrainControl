@@ -75,10 +75,10 @@ class Relay(ClassBase):
     @override
     def __db_write_to_db__(self):
         if self.__gpio is None:
-            sql_insert = ("INSERT INTO relay (oid, name, rasperrypie, closed) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" +
-                          str(self.get_rasperry_pie().get_oid()) + "','" + str(self.is_closed()) + "')", None)
+            sql_insert = ("INSERT INTO relay (oid, name, rasperrypie, closed) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" +
+                          str(self.get_rasperry_pie().get_oid()) + "', '" + str(self.is_closed()) + "')", None)
         else:
-            sql_insert = ("INSERT INTO relay (oid, name, rasperrypie, gpio, closed) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" +
+            sql_insert = ("INSERT INTO relay (oid, name, rasperrypie, gpio, closed) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" +
                           str(self.get_rasperry_pie().get_oid()) + "'," + str(self.get_gpio()) + ",'" + str(self.is_closed()) + "')")
         Database.run_sql_query(sql_insert, False)
     """
@@ -101,14 +101,13 @@ class Relay(ClassBase):
         :return: the newly created relay
         """
         if name is None:
-            highest_generic_name = Database.run_sql_query(
-                "SELECT name FROM relay WHERE name ~ '^Relay \\d+$' ORDER BY name DESC LIMIT 1")
+            highest_generic_name = Database.run_sql_query("SELECT name FROM relay WHERE name ~ '^Relay \\d+$' ORDER BY name DESC LIMIT 1")
             if highest_generic_name is not None:
                 name = "Relay " + str(int(str(highest_generic_name).rsplit(" ")[1]) + 1)
             else:
                 name = "Relay 1"
         else:
-            found_relays_with_same_name = Database.run_sql_query("SELECT count(oid) FROM relay WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'")
+            found_relays_with_same_name = int(Database.run_sql_query("SELECT count(oid) FROM relay WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'"))
             if found_relays_with_same_name> 0:
                 raise BadInitializationException("There was already a Relay with the name " + name + " for the rasperry pie " +rasperry_pie.get_name())
 

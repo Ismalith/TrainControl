@@ -55,6 +55,7 @@ class M3HMotorcontroller(ClassBase):
         self.__rp_pie = rp_pie
         self.__address = address
         #self.__motorcontroller = motoron.MotoronI2C(address=int(self.__address, 16))TODO sobald auf einem Rasperry Pie, diese Zeilen wieder einfügen
+
         if not legal_db_call:
             self.__db_write_to_db__()
     """
@@ -80,10 +81,10 @@ class M3HMotorcontroller(ClassBase):
     @override
     def __db_write_to_db__(self):
         if self.__address is not None:
-            sql_insert = "INSERT INTO m3hmotorcontroller (oid, name, rasperrypie, i2caddress) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" + str(self.get_rasperry_pie().get_oid()) + "','" + self.get_address() + "')"
+            sql_insert = "INSERT INTO m3hmotorcontroller (oid, name, rasperrypie, i2caddress) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.get_rasperry_pie().get_oid()) + "', '" + self.get_address() + "')"
             Database.run_sql_query(sql_insert, False)
         else:
-            sql_insert = "INSERT INTO m3hmotorcontroller (oid, name, rasperrypie) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" + str(self.get_rasperry_pie().get_oid()) + "')"
+            sql_insert = "INSERT INTO m3hmotorcontroller (oid, name, rasperrypie) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" + str(self.get_rasperry_pie().get_oid()) + "')"
             Database.run_sql_query(sql_insert, False)
     """
     END db functions
@@ -111,8 +112,8 @@ class M3HMotorcontroller(ClassBase):
             else:
                 name = "MotorController 1"
         else:
-            found_power_sensors_with_same_name = Database.run_sql_query("SELECT count(oid) FROM m3hmotorcontroller "
-                "WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'")
+            found_power_sensors_with_same_name = int(Database.run_sql_query("SELECT count(oid) FROM m3hmotorcontroller "
+                "WHERE name = '" + name + "' AND rasperrypie = '" + rasperry_pie.get_oid() + "'"))
             if found_power_sensors_with_same_name > 0:
                 raise BadInitializationException("A M3H motor controller with the name " + name + " is already in use on the same rasperry pie " + rasperry_pie.get_name())
 
@@ -196,7 +197,7 @@ class M3HMotorcontroller(ClassBase):
         self.__motorcontroller.set_command_timeout_milliseconds(1000000)
         self.__ready = True
         self.__direction = {1: 0, 2: 0, 3: 0}
-
+        return True
 
     def run_reset_direction(self, channel: int):
         """
@@ -359,13 +360,13 @@ class M3HMotorcontroller(ClassBase):
     """
     START private specific functions
     """
-    def __check_ready_and_controller(self, chanel: int):
+    def __check_ready_and_controller(self, channel: int):
         if not self.__ready:
             raise M3HMotorcontrollerException("M3H motor controller " + self.get_name() + " has to be reset before use")
 
-        if not 1 <= chanel <= 3:
+        if not 1 <= channel <= 3:
             raise M3HMotorcontrollerException("Attempt to drive the motor controller " + self.get_name()
-                                              + " with a channel outside of the 1-3 range: " + chanel)
+                                              + " with a channel outside of the 1-3 range: " + channel)
     """
     END private specific functions
     """

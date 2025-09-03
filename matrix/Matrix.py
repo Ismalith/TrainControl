@@ -67,7 +67,7 @@ class Matrix(ClassBase):
     @override
     def __db_write_to_db__(self):
         dimensions = self.get_dimensions()
-        sql_insert = ("INSERT INTO matrix (oid, name, xlength, ylength, zlength) VALUES ('" + self.get_oid() + "','" + self.get_name() + "','" +
+        sql_insert = ("INSERT INTO matrix (oid, name, xlength, ylength, zlength) VALUES ('" + self.get_oid() + "', '" + self.get_name() + "', '" +
                       str(dimensions[0]) + "'," + str(dimensions[1]) + ",'" + str(dimensions[2]) + "')")
         Database.run_sql_query(sql_insert, False)
     """
@@ -141,7 +141,10 @@ class Matrix(ClassBase):
 
     def point_in_boarders(self, x:int, y:int, z:int) -> bool:
         """
-        Returns true if the given point is within the borders of this matrix
+        Returns true if the given point is within the borders of this matrix and false if not
+        :param x: the x coordinate of the point to be tested
+        :param y: the y coordinate of the point to be tested
+        :param z: the z coordinate of the point to be tested
         """
         if x < 0 or y < 0 or z < 0:
             return False
